@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>{% block title %}Welcome to ToDoApp{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block stylesheets %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    {% endblock %}
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-bg {{ app.session.flashbag.peek('success')|length > 0 ? '' : 'mb-5' }}">
+    <a style="margin-left: 75px;color:white;font-size: 45px;" class="navbar-brand space-brand" href="{{ path('app_homepage') }}">ToDoApp</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+
+        <ul class="navbar-nav ml-auto">
+            {% if is_granted('ROLE_USER') %}
+
+                <li class="nav-item dropdown" style="margin-right: 75px;">
+                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img class="nav-profile-img rounded-circle" src="{{ app.user.avatarUrl(100) }}">
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" >
+                        <a class="dropdown-item" href="{{ path('app_account') }}">Profile</a>
+
+                        <a class="dropdown-item" href="{{ path('inbox_show',
+                            {slug: workspace.slug}) }}">Inbox</a>
+                        <a class="dropdown-item" href="{{ path('today_show',
+                            {slug: workspace.slug}) }}">Today</a>
+                        <a class="dropdown-item" href="{{ path('upcoming_show',
+                            {slug: workspace.slug}) }}">Upcoming</a>
+                        <a class="dropdown-item" href="{{ path('anytime_show',
+                            {slug: workspace.slug}) }}">Anytime</a>
+                        <a class="dropdown-item" href="{{ path('someday_show',
+                            {slug: workspace.slug}) }}">Someday</a>
+                        <a class="dropdown-item" href="{{ path('logbook_show',
+                            {slug: workspace.slug}) }}">Logbook</a>
+                        {% if is_granted('ROLE_PRO') %}
+                            <a class="dropdown-item" href="{{ path('app_homepage') }}">Add workspace </a>
+                        {% endif %}
+                        <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a style="color: #fff;font-size: 25px" class="nav-link" href="{{ path('app_login') }}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a style="color: #fff;font-size: 25px" class="nav-link" href="{{ path('app_register') }}">Register</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+{% block body %}{% endblock %}
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+    <script>
+        $('.dropdown-toggle').dropdown();
+    </script>
+{% endblock %}
+</body>
+</html>

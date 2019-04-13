@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container" >
+        <div class="row" >
+
+
+
+            <div class="col-sm-12 col-md-15">
+
+                <h1 class="title">Inbox </h1>
+                {% for project in projects %}
+                    <div class="article-container my-1" >
+                        <a href="{{ path('project_show', {slug: project.slug}) }}">
+                            <div class="article-title d-inline-block pl-3 align-middle">
+                                <font size="4"><b><span>{{ project.name }}</span></b></font>
+
+
+
+
+                                <br>
+                                <span>{{ project.description }}</span>
+
+                            </div>
+                        </a>
+                    </div>
+                {%  endfor %}
+
+
+
+             </div>
+
+
+        </div>
+    </div>
+
+
+{% endblock %}

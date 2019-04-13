@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <div class="container" >
+        <div class="row" >
+
+
+
+            <div class="col-sm-12 col-md-15">
+
+                <h1 class="title">
+                    {{ project.name }}
+                    <br>
+                    <font size="4">{{ project.description }}</font>
+                </h1>
+
+                {% for toDoItem in toDoItems %}
+                    <div class="to-do-container my-1" >
+                        {#<a href="{{ path('project_show', {slug: project.slug}) }}">#}
+                            <div class="article-title d-inline-block pl-3 align-middle">
+
+                                    {% if toDoItem.done==false %}
+                                         <label style="color:white">
+
+                                            <input type="checkbox"
+                                                   href="{{ path('to_do_toggle_check',
+                                                       {slug:toDoItem.slug}) }}"
+                                                   class="like-article js-like-article" >
+                                         </label>
+                                    {% else %}
+                                        <label style="color:white">
+                                            <input type="checkbox" href="{{ path('to_do_toggle_check',
+                                                {slug:toDoItem.slug}) }}"
+                                                   class="like-article js-like-article" checked>
+                                        </label>
+                                    {% endif %}
+
+                                <font size="4" class="to-do-item"><b><span>{{ toDoItem.name }}</span></b></font>
+
+                                    <a href="{{ path('to_do_delete', {slug: toDoItem.slug }) }}">
+                                        <span class="fa fa-trash"></span>
+                                    </a>
+
+                                    <a href="{{ path('to_do_edit', { slug:toDoItem.slug  }) }}">
+                                        <span class="fa fa-pencil"></span>
+                                    </a>
+
+                                <br>
+
+                                {% for tag in toDoItem.tags %}
+                                    <small>
+                                        <span class="badge badge-info">#{{ tag.name }}</span>
+                                    </small>
+                                {% endfor %}
+                            </div>
+                        </a>
+                    </div>
+                {%  endfor %}
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/to_do_check.js') }}"></script>
+{% endblock %}

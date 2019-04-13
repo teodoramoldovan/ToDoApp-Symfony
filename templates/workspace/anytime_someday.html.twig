@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <div class="container" >
+        <div class="row" >
+
+
+
+            <div class="col-sm-12 col-md-15">
+
+                <h1 class="title">
+                    {{ title }}
+                </h1>
+
+                {% for toDoItem in toDoItems %}
+                    <div class="to-do-container my-1" >
+
+                        <div class="article-title d-inline-block pl-3 align-middle">
+
+                            <font size="4" class="to-do-item"><b><span>{{ toDoItem.name }}</span></b></font>
+                            <br>
+                            <small>
+                                <span class="to-do-item">{{ toDoItem.project.name }}</span>
+                            </small>
+
+                            <br>
+
+                            {% for tag in toDoItem.tags %}
+                                <small>
+                                    <span class="badge badge-info">#{{ tag.name }}</span>
+                                </small>
+                            {% endfor %}
+                        </div>
+                        </a>
+                    </div>
+                {%  endfor %}
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+{% endblock %}

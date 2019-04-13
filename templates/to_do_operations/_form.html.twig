@@ -1,0 +1,11 @@
+{{ form_start(toDoItemForm) }}
+    {{ form_row(toDoItemForm.name, {
+        label: 'To-do item name'
+    }) }}
+    {{ form_row(toDoItemForm.description) }}
+    {{ form_row(toDoItemForm.calendarDate)}}
+    {{ form_row(toDoItemForm.deadline) }}
+    {{ form_row(toDoItemForm.tags) }}
+
+<button type="submit" class="btn btn-primary">{{ button_text }}</button>
+{{ form_end(toDoItemForm) }}

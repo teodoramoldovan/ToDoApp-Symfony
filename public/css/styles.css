@@ -1,0 +1,282 @@
+body {
+    position: relative;
+   /* background: #efefee;*/
+    background-image: url("../images/home-to-do.jpg");
+    /*background-repeat: no-repeat;*/
+    background-size: cover;
+    min-height: 45rem;
+    padding-bottom: 80px;
+    background-position: center center;
+
+
+}
+
+html,body {height:100%}
+
+/* NAVIGATION */
+
+.navbar-bg {
+    /*background: url('../images/header.jpg');*/
+    background-color:rgba(0,0,0,0.7) ;
+    background-size: 100%;
+}
+
+.dropdown-menu, .dropdown-menu.show {
+
+
+    position: absolute;
+
+}
+
+.space-brand {
+    color: #fff;
+    font-weight: bold;
+}
+
+.nav-profile-img {
+    width: 50px;
+    border: 1px solid #fff;
+}
+
+
+/* LOGIN REGISTRATION */
+
+.form-container {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background: #fff;
+}
+
+.inactive {
+    border-color: lightgray lightgray lightgray;
+    background: darkgray;
+    color: #fff;
+}
+
+.nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+    color: #efefee;
+}
+
+/* ADVERTISEMENT
+/*
+.ad-space {
+    background: #fff;
+    border-radius: 5px;
+    border-top: 5px solid green;
+}
+
+.advertisement-img {
+    width: 150px;
+    height: auto;
+    border: 2px solid #efefee;
+    border-radius: 5px;
+}
+
+.advertisement-text {
+    font-weight: bold;
+}
+
+.quote-space {
+    background: #fff;
+    margin-top: 30px;
+    border-radius: 5px;
+    border-top: 5px solid hotpink;
+}*/
+
+.right{
+    float:right;
+}
+
+.left{
+    float:left;
+}
+
+/* ARTICLES */
+.title{
+    background-color:rgba(0,0,0,0.7);
+    color: #80ffd4;
+    text-align: center;
+
+
+}
+.to-do-label{
+    background-color:rgba(0,0,0,0.7);
+    color: #80ffd4;
+
+}
+.main-article {
+    border: 2px solid #efefee;
+    Background: #fff;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.main-article img {
+    width: 100%;
+    height: 250px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top: 5px solid lightblue;
+}
+
+.article-container {
+
+     border: 1px solid #000;
+     border-top-left-radius: 5px;
+     border-bottom-left-radius: 5px;
+     background-color:rgba(0,0,0,0.7) ;
+ }
+
+.to-do-container {
+
+    border: 1px solid #000;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color:rgba(0,0,0,0.7) ;
+}
+
+
+.main-article-link, .to-do-item ,.article-container a {
+    text-decoration: none;
+    color: #80ffd4
+}
+
+.article-container:hover {
+    text-decoration: none;
+    background-color: #111111;
+}
+
+.article-title {
+    min-width: 300px;
+
+}
+
+@media (max-width: 440px) {
+    .article-title {
+        min-width: 100px;
+        max-width: 245px;
+    }
+}
+
+.article-img {
+    height: 100px;
+    width: 100px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.article-author-img {
+    height: 25px;
+    border: 1px solid darkgray;
+}
+
+.article-details {
+    font-size: .8em;
+}
+
+/* PROFILE */
+
+.profile-img {
+    width: 150px;
+    height: auto;
+    border: 2px solid #fff;
+}
+
+.profile-name {
+    font-size: 1.5em;
+}
+
+.my-article-container {
+    background: #FFBC49;
+    border: solid 1px #efefee;
+    border-radius: 5px;
+}
+
+
+/* CREATE ARTICLE */
+
+.create-article-container {
+    min-width: 400px;
+    background-color: lightblue;
+    border-radius: 5px;
+}
+
+/* ARTICLE SHOW PAGE */
+
+/*.show-article-container {
+    width: 100%;
+    background-color: #fff;
+}
+.show-article-container-border-green {
+    width: 100%;
+    background-color: #ccffcc;
+}
+
+.show-article-img {
+    width: 250px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.show-article-title {
+    font-size: 2em;
+}
+
+.like-article, .like-article:hover {
+    color: red;
+    text-decoration: none;
+}
+
+@media (max-width: 991px) {
+    .show-article-title {
+        font-size: 1.5em;
+    }
+
+    .show-article-title-container {
+        max-width: 220px;
+    }
+}
+
+.article-text {
+    margin-top: 20px;
+}
+
+.share-icons i {
+    font-size: 1.5em;
+}
+
+.comment-img {
+    width: 50px;
+    height: auto;
+    border: 1px solid darkgray;
+}
+
+.commenter-name {
+    font-weight: bold;
+}
+
+.comment-form {
+    min-width: 500px;
+}
+
+@media (max-width: 767px) {
+    .comment-form {
+        min-width: 260px;
+    }
+}
+
+*/
+
+
+/* FOOTER */
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px; /* Set the fixed height of the footer here */
+  line-height: 60px; /* Vertically center the text there */
+  background-color: #fff;
+  margin-top: 10px;
+}
