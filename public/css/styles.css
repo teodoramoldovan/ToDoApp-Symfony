@@ -141,6 +141,10 @@ html,body {height:100%}
     text-decoration: none;
     color: #80ffd4
 }
+.checkpoint{
+    color: #80ffd4;
+
+}
 
 .article-container:hover {
     text-decoration: none;

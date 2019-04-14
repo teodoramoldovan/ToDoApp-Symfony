@@ -1,0 +1,8 @@
+{{ form_start(checkPointForm) }}
+    {{ form_row(checkPointForm.name, {
+        label: 'CheckPoint name'
+    }) }}
+    {{ form_row(checkPointForm.toDoItem) }}
+
+<button type="submit" class="btn btn-primary">{{ button_text }}</button>
+{{ form_end(checkPointForm) }}

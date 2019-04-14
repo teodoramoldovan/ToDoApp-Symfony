@@ -4,8 +4,10 @@
 namespace App\Controller;
 
 
+use App\ApplicationService\ProjectApplicationService;
 use App\ApplicationService\ToDoItemApplicationService;
 use App\ApplicationService\WorkspaceApplicationService;
+use App\Entity\Project;
 use App\Entity\ToDoItem;
 use App\Form\ToDoItemFormType;
 use App\Repository\ToDoItemRepository;
@@ -61,7 +63,6 @@ class ToDoItemController extends BaseController
      * @Route("/toDoItem/{slug}/edit", name="to_do_edit")
      */
     public function edit(ToDoItem $toDoItem, Request $request,
-                         EntityManagerInterface $em,
                          WorkspaceApplicationService $workspaceService,
                          ToDoItemApplicationService $toDoService)
     {
@@ -72,7 +73,7 @@ class ToDoItemController extends BaseController
 
         $workspace=$workspaceService->findWorkspace($userId);
         $form = $this->createForm(ToDoItemFormType::class, $toDoItem, [
-            //'tags'=>$tagsArray,
+            'workspace'=>$workspace
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -89,5 +90,72 @@ class ToDoItemController extends BaseController
             'workspace'=>$workspace,
         ]);
     }
+
+    /**
+     * @Route("/toDoItem/{slug}/new", name="to_do_new")
+     */
+    public function add( Request $request,
+                         WorkspaceApplicationService $workspaceService,
+                         ToDoItemApplicationService $toDoService)
+    {
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        $userId=$user->getId();
+
+        $workspace=$workspaceService->findWorkspace($userId);
+        //dd($workspace);
+        $form = $this->createForm(ToDoItemFormType::class,null, [
+            'workspace'=>$workspace
+        ]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $toDoItem=$form->getData();
+            $toDoService->addToDoItem($toDoItem);
+            $this->addFlash('success', 'ToDoItem Created!');
+            return $this->redirectToRoute('app_homepage');
+        }
+        return $this->render('to_do_operations/add.html.twig', [
+            'toDoItemForm' => $form->createView(),
+            'workspace'=>$workspace,
+        ]);
+    }
+
+    /**
+     * @Route("/toDoItem/{slug}/convert", name="to_do_convert")
+     */
+    public function convert(ToDoItem $toDoItem,
+                           ProjectApplicationService $projectService,
+                            ToDoItemApplicationService $toDoService)
+    {
+
+        $project=$toDoItem->getProject();
+        $workspace=$project->getWorkspace();
+
+        $newProject=new Project();
+        $newProject->setWorkspace($workspace)
+            ->setDescription($toDoItem->getDescription())
+            ->setName($toDoItem->getName())
+            ;
+        $projectService->addProject($newProject);
+        foreach ($toDoItem->getCheckPoints() as $checkPoint){
+            $newToDoItem=new ToDoItem();
+            $newToDoItem->setProject($newProject)
+                ->setName($checkPoint->getName());
+
+            $toDoService->addToDoItem($newToDoItem);
+
+            $newProject->addToDoItem($newToDoItem);
+        }
+        $this->delete($toDoItem,$toDoService);
+
+
+
+        return new RedirectResponse('http://localhost:8000/workspace/'
+            .$workspace);
+
+    }
+
 
 }

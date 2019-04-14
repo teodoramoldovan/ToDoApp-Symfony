@@ -272,4 +272,15 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
         return $toDoItemDtos;
     }
 
+    public function insertToDo(ToDoItem $toDoItem): void
+    {
+        $this->em->persist($toDoItem);
+        $this->em->flush();
+    }
+
+    public function findToDoBySlug(string $slug): ToDoItem
+    {
+
+        return $this->findOneBy(array('slug'=>$slug));
+    }
 }

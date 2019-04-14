@@ -14,7 +14,8 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark navbar-bg {{ app.session.flashbag.peek('success')|length > 0 ? '' : 'mb-5' }}">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-bg {{ app.session.flashbag.peek('success')|
+                                                    length > 0 ? '' : 'mb-5' }}">
     <a style="margin-left: 75px;color:white;font-size: 45px;" class="navbar-brand space-brand" href="{{ path('app_homepage') }}">ToDoApp</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,6 +47,8 @@
                             {slug: workspace.slug}) }}">Someday</a>
                         <a class="dropdown-item" href="{{ path('logbook_show',
                             {slug: workspace.slug}) }}">Logbook</a>
+                        <a class="dropdown-item" href="{{ path('to_do_new',
+                            {slug: workspace.slug}) }}">Add to-do</a>
                         {% if is_granted('ROLE_PRO') %}
                             <a class="dropdown-item" href="{{ path('app_homepage') }}">Add workspace </a>
                         {% endif %}

@@ -4,8 +4,13 @@
 namespace App\Form;
 
 
+use App\ApplicationService\ProjectApplicationService;
+use App\Domain\Model\WorkspaceDTO;
+use App\Entity\Project;
 use App\Entity\Tag;
 use App\Entity\ToDoItem;
+use App\Entity\Workspace;
+use App\Repository\ProjectRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -15,9 +20,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ToDoItemFormType extends AbstractType
 {
+    /**
+     * @var WorkspaceDTO $workspace
+     */
+    private $workspace;
     public function buildForm(FormBuilderInterface $builder, array $options){
         /** @var ToDoItem|null $toDoItem */
         $toDoItem=$options['data']??null;
+
+
+        $this->workspace=$options['workspace'];
+
 
         $builder
             ->add('name',TextType::class, [
@@ -36,6 +49,17 @@ class ToDoItemFormType extends AbstractType
                 'required'=>false,
 
             ])
+            ->add('project',EntityType::class,[
+                'class'=>Project::class,
+                'query_builder' => function (ProjectRepository $projectRepository) {
+
+                    return $projectRepository->queryProjectsByWorkspace($this->workspace->slug);
+                },
+                'choice_label'=>'name',
+                'label' => 'Project',
+                'placeholder'=>'Choose a project',
+                'required'=>true,
+            ])
             ->add('calendarDate',DateType::class,[
                 'widget' => 'single_text',
                 'required'=>false,
@@ -51,7 +75,7 @@ class ToDoItemFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ToDoItem::class,
-            'tags' => null,
+            'workspace'=>null,
         ]);
     }
 

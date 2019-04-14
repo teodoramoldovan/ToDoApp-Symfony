@@ -27,6 +27,7 @@ class ProjectController extends AbstractController
     public function projectShow(ToDoItemApplicationService $toDoItemService,
                                 ProjectApplicationService $projectService,
                                 WorkspaceApplicationService $workspaceService,
+
                                 $slug){
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -36,6 +37,7 @@ class ProjectController extends AbstractController
         $workspace=$workspaceService->findWorkspace($userId);
         $toDoItems=$toDoItemService->findToDosByProject($slug);
         $project=$projectService->findProjectBySlug($slug);
+        //$checkpoints=$checkPointService->findCheckPoints($to)
 
 
         return $this->render('workspace/project.html.twig',[

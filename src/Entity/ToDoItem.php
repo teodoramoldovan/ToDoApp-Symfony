@@ -104,7 +104,7 @@ class ToDoItem
         return $this->calendarDate;
     }
 
-    public function setCalendarDate(\DateTimeInterface $calendarDate): self
+    public function setCalendarDate(?\DateTimeInterface $calendarDate): self
     {
         $this->calendarDate = $calendarDate;
 

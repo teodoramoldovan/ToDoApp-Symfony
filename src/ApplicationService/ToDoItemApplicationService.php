@@ -5,7 +5,9 @@ namespace App\ApplicationService;
 
 
 use App\Domain\ToDoItemRepositoryInterface;
+use App\Entity\Project;
 use App\Entity\ToDoItem;
+use App\Entity\Workspace;
 
 class ToDoItemApplicationService
 {
@@ -37,6 +39,9 @@ class ToDoItemApplicationService
     public function editToDoItem($toDoItem){
         $this->toDoItemRepository->updateToDo($toDoItem);
     }
+    public function addToDoItem($toDoItem){
+        $this->toDoItemRepository->insertToDo($toDoItem);
+    }
     public function findTodayToDos(string $slug){
         return $this->toDoItemRepository
             ->findTodayToDoItems($slug);
@@ -57,5 +62,10 @@ class ToDoItemApplicationService
         return $this->toDoItemRepository
             ->findSomedayToDoItems($slug);
     }
+    public function findToDoBySlug(string $slug){
+        return $this->toDoItemRepository
+            ->findToDoBySlug($slug);
+    }
+
 
 }

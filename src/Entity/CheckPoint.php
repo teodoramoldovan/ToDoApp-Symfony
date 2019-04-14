@@ -91,4 +91,12 @@ class CheckPoint
 
         return $this;
     }
+    public function changeDone(): self
+    {
+        if($this->done==true){
+            $this->done=false;
+        }else $this->done=true;
+
+        return $this;
+    }
 }

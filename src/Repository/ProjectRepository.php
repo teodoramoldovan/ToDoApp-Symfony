@@ -6,6 +6,7 @@ use App\Domain\Model\ProjectDTO;
 use App\Domain\ProjectRepositoryInterface;
 use App\Entity\Project;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -16,9 +17,11 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class ProjectRepository extends ServiceEntityRepository implements ProjectRepositoryInterface
 {
-    public function __construct(RegistryInterface $registry)
+    private $em;
+    public function __construct(RegistryInterface $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, Project::class);
+        $this->em=$em;
     }
 
     public function findProjectsByWorkspace($workspace)
@@ -52,5 +55,27 @@ class ProjectRepository extends ServiceEntityRepository implements ProjectReposi
         }
 
         return $projectDtos;
+    }
+
+    public function findProjectById(int $id): ProjectDTO
+    {
+        $project=$this->findOneBy(array('id' => $id));
+        return new ProjectDTO($project->getName(),$project->getDescription(),
+            $project->getSlug(),$project->getToDoItems(), $project->getWorkspace());
+    }
+
+    public function queryProjectsByWorkspace($workspace)
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.workspace', 'workspace')
+            ->andWhere('workspace.slug = :workspaceSlug')
+            ->setParameter('workspaceSlug', $workspace)
+            ;
+    }
+
+    public function insertProject(Project $project): void
+    {
+        $this->em->persist($project);
+        $this->em->flush();
     }
 }

@@ -6,6 +6,7 @@ namespace App\ApplicationService;
 
 use App\Domain\Model\ProjectDTO;
 use App\Domain\ProjectRepositoryInterface;
+use App\Entity\Project;
 
 class ProjectApplicationService
 {
@@ -27,6 +28,13 @@ class ProjectApplicationService
         return $this->projectRepository->findProjects($slug);
 
 
+    }
+    public function findProjectById(int $id)
+    {
+        return $this->projectRepository->findProjectById($id);
+    }
+    public function addProject(Project $project){
+        $this->projectRepository->insertProject($project);
     }
 
 }
