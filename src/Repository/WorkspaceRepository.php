@@ -7,6 +7,7 @@ use App\Domain\Model\WorkspaceDTO;
 use App\Domain\WorkspaceRepositoryInterface;
 use App\Entity\Workspace;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -17,9 +18,11 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class WorkspaceRepository extends ServiceEntityRepository implements WorkspaceRepositoryInterface
 {
-    public function __construct(RegistryInterface $registry)
+    private $em;
+    public function __construct(RegistryInterface $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, Workspace::class);
+        $this->em=$em;
     }
     public function findInboxByUser(int $userId):?Workspace
     {
@@ -59,4 +62,28 @@ class WorkspaceRepository extends ServiceEntityRepository implements WorkspaceRe
             ;
     }
 
+    public function findCustomWorkspacesByUser($userId)
+    {
+        return $this->createQueryBuilder('w')
+            ->leftJoin('w.user', 'user')
+            ->andWhere('user.id = :userId')
+            ->setParameter('userId', $userId)
+            ->andWhere('w.name != :notInbox')
+            ->setParameter('notInbox',"Inbox")
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function insertWorkspace(Workspace $workspace): void
+    {
+        $this->em->persist($workspace);
+        $this->em->flush();
+    }
+
+    public function findCustomWorkspaces(?int $userId): array
+    {
+        return $this->findCustomWorkspacesByUser($userId);
+
+    }
 }

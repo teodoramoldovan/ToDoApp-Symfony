@@ -28,6 +28,7 @@ class ToDoItemDTO
     public $description;
     public $deadline;
     public $checkPoints;
+    public $heading;
 
     /**
      * ToDoItemDTO constructor.
@@ -42,7 +43,8 @@ class ToDoItemDTO
      * @param $deadline
      * @param $checkPoints
      */
-    public function __construct($name, $calendarDate, $tags, $project, $done, $slug, $wish, $description, $deadline, $checkPoints)
+    public function __construct($name, $calendarDate, $tags, $project, $done, $slug, $wish, $description, $deadline,
+                                $checkPoints,$heading)
     {
         $this->name = $name;
         $this->calendarDate = $calendarDate;
@@ -54,6 +56,7 @@ class ToDoItemDTO
         $this->description = $description;
         $this->deadline = $deadline;
         $this->checkPoints = $checkPoints;
+        $this->heading=$heading;
     }
 
     public function changeDone(): self

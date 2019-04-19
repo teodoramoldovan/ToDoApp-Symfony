@@ -5,14 +5,14 @@ namespace App\Controller;
 
 
 use App\ApplicationService\ProjectApplicationService;
+use App\ApplicationService\TagApplicationService;
 use App\ApplicationService\ToDoItemApplicationService;
 use App\ApplicationService\WorkspaceApplicationService;
 use App\Entity\Project;
+use App\Entity\Tag;
 use App\Entity\ToDoItem;
 use App\Form\ToDoItemFormType;
-use App\Repository\ToDoItemRepository;
-use App\Repository\WorkspaceRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Faker\Provider\DateTime;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,10 +34,12 @@ class ToDoItemController extends BaseController
         $q = $request->query->get('q');
 
         $workspace=$workspaceService->findWorkspace($userId);
+        $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
         $toDoItems=$toDoService->findAllSearch($q,$workspace->slug);
         return $this->render('home/homepage.html.twig',[
             'workspace'=>$workspace,
             'toDoItems'=>$toDoItems,
+            'customWorkspaces'=>$customWorkspaces,
 
         ]);
     }
@@ -72,11 +74,19 @@ class ToDoItemController extends BaseController
         $userId=$user->getId();
 
         $workspace=$workspaceService->findWorkspace($userId);
+        $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
         $form = $this->createForm(ToDoItemFormType::class, $toDoItem, [
             'workspace'=>$workspace
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if($toDoItem->getHeading()!=null){
+                $date=new \DateTime();
+                //$datee=date_format($date, 'Y-m-d');
+
+                $toDoItem->setCalendarDate($date);
+            }
 
             $toDoService->editToDoItem($toDoItem);
             $this->addFlash('success', 'ToDoItem Updated!
@@ -88,6 +98,7 @@ class ToDoItemController extends BaseController
         return $this->render('to_do_operations/edit.html.twig', [
             'toDoItemForm' => $form->createView(),
             'workspace'=>$workspace,
+            'customWorkspaces'=>$customWorkspaces
         ]);
     }
 
@@ -96,7 +107,8 @@ class ToDoItemController extends BaseController
      */
     public function add( Request $request,
                          WorkspaceApplicationService $workspaceService,
-                         ToDoItemApplicationService $toDoService)
+                         ToDoItemApplicationService $toDoService,
+                            TagApplicationService $tagService)
     {
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -104,6 +116,7 @@ class ToDoItemController extends BaseController
         $userId=$user->getId();
 
         $workspace=$workspaceService->findWorkspace($userId);
+        $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
         //dd($workspace);
         $form = $this->createForm(ToDoItemFormType::class,null, [
             'workspace'=>$workspace
@@ -112,6 +125,21 @@ class ToDoItemController extends BaseController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $toDoItem=$form->getData();
+            $parts=$toDoService->extractTags($toDoItem->getName());
+            if(!empty($parts)){
+                $toDoItem->setName($parts[0]);
+                foreach (array_slice($parts,1) as $part){
+                    $tag=new Tag();
+                    $tag->setName($part);
+                    $tagService->addTag($tag);
+                    $toDoItem->addTag($tag);
+                }
+            }
+            else $toDoItem->setName($parts[0]);
+            if($toDoItem->getHeading()!=null){
+                $date=new \DateTime();
+                $toDoItem->setCalendarDate($date);
+            }
             $toDoService->addToDoItem($toDoItem);
             $this->addFlash('success', 'ToDoItem Created!');
             return $this->redirectToRoute('app_homepage');
@@ -119,6 +147,7 @@ class ToDoItemController extends BaseController
         return $this->render('to_do_operations/add.html.twig', [
             'toDoItemForm' => $form->createView(),
             'workspace'=>$workspace,
+            'customWorkspaces'=>$customWorkspaces
         ]);
     }
 

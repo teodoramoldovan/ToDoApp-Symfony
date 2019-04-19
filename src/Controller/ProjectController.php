@@ -37,13 +37,14 @@ class ProjectController extends AbstractController
         $workspace=$workspaceService->findWorkspace($userId);
         $toDoItems=$toDoItemService->findToDosByProject($slug);
         $project=$projectService->findProjectBySlug($slug);
-        //$checkpoints=$checkPointService->findCheckPoints($to)
+        $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
 
 
         return $this->render('workspace/project.html.twig',[
             'toDoItems'=>$toDoItems,
             'workspace'=>$workspace,
             'project'=>$project,
+            'customWorkspaces'=>$customWorkspaces,
 
 
         ]);

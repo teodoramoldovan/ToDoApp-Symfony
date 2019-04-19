@@ -13,6 +13,7 @@ use App\Entity\Workspace;
 use App\Repository\ProjectRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -59,6 +60,14 @@ class ToDoItemFormType extends AbstractType
                 'label' => 'Project',
                 'placeholder'=>'Choose a project',
                 'required'=>true,
+            ])
+            ->add('heading',ChoiceType::class,[
+                'choices'=>['This Evening'=>'this_evening'],
+                'label'=>'When exactly?',
+                'help'=>'If you check this, leave calendar date empty',
+                'expanded'=>true,
+                'placeholder'=>false,
+                'required'=>false,
             ])
             ->add('calendarDate',DateType::class,[
                 'widget' => 'single_text',

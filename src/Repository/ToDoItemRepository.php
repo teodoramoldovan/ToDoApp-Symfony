@@ -52,7 +52,7 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
             $toDoDto=new ToDoItemDTO($toDoItem->getName(),$toDoItem->getCalendarDate(),
                 $toDoItem->getTags(),$toDoItem->getProject(), $toDoItem->getDone(),
                 $toDoItem->getSlug(), $toDoItem->getWish(),$toDoItem->getDescription(), $toDoItem->getDeadline(),
-                $toDoItem->getCheckPoints());
+                $toDoItem->getCheckPoints(),$toDoItem->getHeading());
             array_push($toDoItemDtos,$toDoDto);
 
         }
@@ -176,7 +176,7 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
             $toDoDto=new ToDoItemDTO($toDoItem->getName(),$toDoItem->getCalendarDate(),
                 $toDoItem->getTags(),$toDoItem->getProject(), $toDoItem->getDone(),
                 $toDoItem->getSlug(), $toDoItem->getWish(),$toDoItem->getDescription(), $toDoItem->getDeadline(),
-                $toDoItem->getCheckPoints());
+                $toDoItem->getCheckPoints(),$toDoItem->getHeading());
             array_push($toDoItemDtos,$toDoDto);
 
         }
@@ -204,7 +204,7 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
             $toDoDto=new ToDoItemDTO($toDoItem->getName(),$toDoItem->getCalendarDate(),
                 $toDoItem->getTags(),$toDoItem->getProject(), $toDoItem->getDone(),
                 $toDoItem->getSlug(), $toDoItem->getWish(),$toDoItem->getDescription(), $toDoItem->getDeadline(),
-                $toDoItem->getCheckPoints());
+                $toDoItem->getCheckPoints(),$toDoItem->getHeading());
             array_push($toDoItemDtos,$toDoDto);
 
         }
@@ -219,7 +219,7 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
             $toDoDto=new ToDoItemDTO($toDoItem->getName(),$toDoItem->getCalendarDate(),
                 $toDoItem->getTags(),$toDoItem->getProject(), $toDoItem->getDone(),
                 $toDoItem->getSlug(), $toDoItem->getWish(),$toDoItem->getDescription(), $toDoItem->getDeadline(),
-                $toDoItem->getCheckPoints());
+                $toDoItem->getCheckPoints(),$toDoItem->getHeading());
             array_push($toDoItemDtos,$toDoDto);
 
         }
@@ -234,7 +234,7 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
             $toDoDto=new ToDoItemDTO($toDoItem->getName(),$toDoItem->getCalendarDate(),
                 $toDoItem->getTags(),$toDoItem->getProject(), $toDoItem->getDone(),
                 $toDoItem->getSlug(), $toDoItem->getWish(),$toDoItem->getDescription(), $toDoItem->getDeadline(),
-                $toDoItem->getCheckPoints());
+                $toDoItem->getCheckPoints(),$toDoItem->getHeading());
             array_push($toDoItemDtos,$toDoDto);
 
         }
@@ -249,7 +249,7 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
             $toDoDto=new ToDoItemDTO($toDoItem->getName(),$toDoItem->getCalendarDate(),
                 $toDoItem->getTags(),$toDoItem->getProject(), $toDoItem->getDone(),
                 $toDoItem->getSlug(), $toDoItem->getWish(),$toDoItem->getDescription(), $toDoItem->getDeadline(),
-                $toDoItem->getCheckPoints());
+                $toDoItem->getCheckPoints(),$toDoItem->getHeading());
             array_push($toDoItemDtos,$toDoDto);
 
         }
@@ -264,7 +264,7 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
             $toDoDto=new ToDoItemDTO($toDoItem->getName(),$toDoItem->getCalendarDate(),
                 $toDoItem->getTags(),$toDoItem->getProject(), $toDoItem->getDone(),
                 $toDoItem->getSlug(), $toDoItem->getWish(),$toDoItem->getDescription(), $toDoItem->getDeadline(),
-                $toDoItem->getCheckPoints());
+                $toDoItem->getCheckPoints(),$toDoItem->getHeading());
             array_push($toDoItemDtos,$toDoDto);
 
         }

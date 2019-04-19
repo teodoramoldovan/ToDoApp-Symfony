@@ -66,6 +66,10 @@ class ToDoItemApplicationService
         return $this->toDoItemRepository
             ->findToDoBySlug($slug);
     }
+    public function extractTags(string $title):array
+    {
+        return explode("#",$title);
+    }
 
 
 }

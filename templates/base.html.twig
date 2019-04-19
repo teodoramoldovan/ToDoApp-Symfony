@@ -47,10 +47,16 @@
                             {slug: workspace.slug}) }}">Someday</a>
                         <a class="dropdown-item" href="{{ path('logbook_show',
                             {slug: workspace.slug}) }}">Logbook</a>
+                        {% if is_granted('ROLE_PRO') %}
+                            {% for custom in customWorkspaces %}
+                                <a class="dropdown-item" href=" #">{{ custom.name }}</a>
+                            {% endfor %}
+                        {% endif %}
                         <a class="dropdown-item" href="{{ path('to_do_new',
                             {slug: workspace.slug}) }}">Add to-do</a>
                         {% if is_granted('ROLE_PRO') %}
-                            <a class="dropdown-item" href="{{ path('app_homepage') }}">Add workspace </a>
+                            <a class="dropdown-item" href="{{ path('workspace_new',
+                                {slug: workspace.slug}) }}">Add workspace </a>
                         {% endif %}
                         <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
                     </div>

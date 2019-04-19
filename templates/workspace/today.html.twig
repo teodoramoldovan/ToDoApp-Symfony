@@ -14,43 +14,94 @@
                     Today
                 </h1>
 
+
+
                 {% for toDoItem in toDoItems %}
-                    <div class="to-do-container my-1" >
+                    {% if toDoItem.heading == null %}
+                        <div class="to-do-container my-1" >
 
-                        <div class="article-title d-inline-block pl-3 align-middle">
+                            <div class="article-title d-inline-block pl-3 align-middle">
 
-                            {% if toDoItem.done==false %}
-                                <label style="color:white">
+                                {% if toDoItem.done==false %}
+                                    <label style="color:white">
 
-                                    <input type="checkbox"  href="{{ path('to_do_toggle_check',
-                                        {slug:toDoItem.slug}) }}"
-                                           class="like-article js-like-article" >
-                                </label>
-                            {% else %}
-                                <label style="color:white">
-                                    <input type="checkbox" href="{{ path('to_do_toggle_check',
-                                        {slug:toDoItem.slug}) }}"
-                                           class="like-article js-like-article" checked>
-                                </label>
-                            {% endif %}
+                                        <input type="checkbox"  href="{{ path('to_do_toggle_check',
+                                            {slug:toDoItem.slug}) }}"
+                                               class="like-article js-like-article" >
+                                    </label>
+                                {% else %}
+                                    <label style="color:white">
+                                        <input type="checkbox" href="{{ path('to_do_toggle_check',
+                                            {slug:toDoItem.slug}) }}"
+                                               class="like-article js-like-article" checked>
+                                    </label>
+                                {% endif %}
 
-                            <font size="4" class="to-do-item"><b><span>{{ toDoItem.name }}</span></b></font>
-                            <br>
-                                <small>
-                                    <span class="to-do-item">{{ toDoItem.project.name }}</span>
-                                </small>
+                                <font size="4" class="to-do-item"><b><span>{{ toDoItem.name }}</span></b></font>
+                                <br>
+                                    <small>
+                                        <span class="to-do-item">{{ toDoItem.project.name }}</span>
+                                    </small>
 
-                            <br>
+                                <br>
 
-                            {% for tag in toDoItem.tags %}
-                                <small>
-                                    <span class="badge badge-info">#{{ tag.name }}</span>
-                                </small>
-                            {% endfor %}
+                                {% for tag in toDoItem.tags %}
+                                    <small>
+                                        <span class="badge badge-info">#{{ tag.name }}</span>
+                                    </small>
+                                {% endfor %}
+                            </div>
+                            </a>
                         </div>
-                        </a>
-                    </div>
+
+                    {% endif %}
                 {%  endfor %}
+
+                {% if is_granted('ROLE_PRO') %}
+                    <h2 class="title">
+                        This Evening
+                    </h2>
+                    {% for toDoItem in toDoItems %}
+                        {% if toDoItem.heading != null %}
+                            <div class="to-do-container my-1" >
+
+                                <div class="article-title d-inline-block pl-3 align-middle">
+
+                                    {% if toDoItem.done==false %}
+                                        <label style="color:white">
+
+                                            <input type="checkbox"  href="{{ path('to_do_toggle_check',
+                                                {slug:toDoItem.slug}) }}"
+                                                   class="like-article js-like-article" >
+                                        </label>
+                                    {% else %}
+                                        <label style="color:white">
+                                            <input type="checkbox" href="{{ path('to_do_toggle_check',
+                                                {slug:toDoItem.slug}) }}"
+                                                   class="like-article js-like-article" checked>
+                                        </label>
+                                    {% endif %}
+
+                                    <font size="4" class="to-do-item"><b><span>{{ toDoItem.name }}</span></b></font>
+                                    <br>
+                                    <small>
+                                        <span class="to-do-item">{{ toDoItem.project.name }}</span>
+                                    </small>
+
+                                    <br>
+
+                                    {% for tag in toDoItem.tags %}
+                                        <small>
+                                            <span class="badge badge-info">#{{ tag.name }}</span>
+                                        </small>
+                                    {% endfor %}
+                                </div>
+                                </a>
+                            </div>
+
+                        {% endif %}
+                    {%  endfor %}
+                {% endif %}
 
 
 

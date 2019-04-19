@@ -7,10 +7,13 @@ namespace App\Controller;
 use App\ApplicationService\ProjectApplicationService;
 use App\ApplicationService\ToDoItemApplicationService;
 use App\ApplicationService\WorkspaceApplicationService;
+use App\Form\WorkspaceFormType;
 use App\Repository\ProjectRepository;
 use App\Repository\ToDoItemRepository;
 use App\Repository\WorkspaceRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -31,10 +34,12 @@ class WorkspaceController extends AbstractController
 
        $workspace=$workspaceService->findWorkspace($userId);
        $projects=$projectService->findProjectsByWorkspace($slug);
+       $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
       // $projects=$projectRepository->findProjectsByWorkspace($slug);
        return $this->render('workspace/inbox.html.twig',[
            'projects'=>$projects,
            'workspace'=>$workspace,
+           'customWorkspaces'=>$customWorkspaces,
 
 
        ]);
@@ -51,12 +56,14 @@ class WorkspaceController extends AbstractController
 
         $workspace=$workspaceService->findWorkspace($userId);
         $toDoItems=$toDoService->findTodayToDos($workspace->slug);
+        $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
 
 
 
         return $this->render('workspace/today.html.twig',[
             'workspace'=>$workspace,
             'toDoItems'=>$toDoItems,
+            'customWorkspaces'=>$customWorkspaces,
 
 
         ]);
@@ -75,12 +82,14 @@ class WorkspaceController extends AbstractController
 
         $workspace=$workspaceService->findWorkspace($userId);
         $toDoItems=$toDoService->findUpcomingToDos($workspace->slug);
+        $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
 
 
 
         return $this->render('workspace/upcoming.html.twig',[
             'workspace'=>$workspace,
             'toDoItems'=>$toDoItems,
+            'customWorkspaces'=>$customWorkspaces,
 
 
         ]);
@@ -99,12 +108,14 @@ class WorkspaceController extends AbstractController
 
         $workspace=$workspaceService->findWorkspace($userId);
         $toDoItems=$toDoService->findCompletedToDos($workspace->slug);
+        $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
 
 
 
         return $this->render('workspace/logbook.html.twig',[
             'workspace'=>$workspace,
             'toDoItems'=>$toDoItems,
+            'customWorkspaces'=>$customWorkspaces,
 
 
         ]);
@@ -123,6 +134,7 @@ class WorkspaceController extends AbstractController
 
         $workspace=$workspaceService->findWorkspace($userId);
         $toDoItems=$toDoService->findAnytimeToDos($workspace->slug);
+        $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
 
         $title="Anytime";
 
@@ -130,6 +142,7 @@ class WorkspaceController extends AbstractController
             'workspace'=>$workspace,
             'toDoItems'=>$toDoItems,
             'title'=>$title,
+            'customWorkspaces'=>$customWorkspaces,
 
 
         ]);
@@ -148,6 +161,7 @@ class WorkspaceController extends AbstractController
 
         $workspace=$workspaceService->findWorkspace($userId);
         $toDoItems=$toDoService->findSomedayToDos($workspace->slug);
+        $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
 
         $title="Someday";
 
@@ -155,10 +169,44 @@ class WorkspaceController extends AbstractController
             'workspace'=>$workspace,
             'toDoItems'=>$toDoItems,
             'title'=>$title,
+            'customWorkspaces'=>$customWorkspaces,
 
 
         ]);
 
+    }
+
+    /**
+     * @Route("/workspace/{slug}/new", name="workspace_new")
+     * @IsGranted("ROLE_PRO")
+     */
+    public function add( Request $request,
+                         WorkspaceApplicationService $workspaceService,
+                         ToDoItemApplicationService $toDoService)
+    {
+
+
+        $user = $this->getUser();
+        $userId=$user->getId();
+
+        $workspace=$workspaceService->findWorkspace($userId);
+        $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
+
+        $form = $this->createForm(WorkspaceFormType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $newWorkspace=$form->getData();
+            $newWorkspace->setUser($user);
+            $workspaceService->addWorkspace($newWorkspace);
+            $this->addFlash('success', 'Workspace Created!');
+            return $this->redirectToRoute('app_homepage');
+        }
+        return $this->render('workspace/add.html.twig', [
+            'workspaceForm' => $form->createView(),
+            'workspace'=>$workspace,
+            'customWorkspaces'=>$customWorkspaces,
+        ]);
     }
 
 

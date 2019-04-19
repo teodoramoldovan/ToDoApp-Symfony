@@ -76,6 +76,11 @@ class ToDoItem
      */
     private $checkPoints;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $heading;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -246,6 +251,18 @@ class ToDoItem
                 $checkPoint->setToDoItem(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getHeading(): ?string
+    {
+        return $this->heading;
+    }
+
+    public function setHeading(?string $heading): self
+    {
+        $this->heading = $heading;
 
         return $this;
     }

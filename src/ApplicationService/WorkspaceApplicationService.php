@@ -6,6 +6,7 @@ namespace App\ApplicationService;
 
 use App\Domain\Model\WorkspaceDTO;
 use App\Domain\WorkspaceRepositoryInterface;
+use App\Entity\Workspace;
 
 class WorkspaceApplicationService
 {
@@ -23,5 +24,13 @@ class WorkspaceApplicationService
         return $workspace;
 
     }
+    public function addWorkspace(Workspace $workspace):void
+    {
+        $this->workspaceRepository->insertWorkspace($workspace);
+    }
 
+    public function findCustomWorkspaces(?int $userId)
+    {
+        return $this->workspaceRepository->findCustomWorkspaces($userId);
+    }
 }

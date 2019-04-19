@@ -3,9 +3,21 @@
         label: 'To-do item name'
     }) }}
     {{ form_row(toDoItemForm.description) }}
+    {% if is_granted('ROLE_PRO') %}
+        {{ form_row(toDoItemForm.heading) }}
+    {% else %}
+
+            {{ form_row(toDoItemForm.heading.setRendered) }}
+
+    {% endif%}
     {{ form_row(toDoItemForm.calendarDate)}}
     {{ form_row(toDoItemForm.deadline) }}
-    {{ form_row(toDoItemForm.tags) }}
+    {% if is_granted('ROLE_PRO') %}
+        {{ form_row(toDoItemForm.tags.setRendered) }}
+    {% else %}
+        {{ form_row(toDoItemForm.tags) }}
+    {% endif %}
+
     {{ form_row(toDoItemForm.project) }}
 
 <button type="submit" class="btn btn-primary">{{ button_text }}</button>

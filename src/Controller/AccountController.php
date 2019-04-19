@@ -28,12 +28,13 @@ class AccountController extends BaseController
 
 
         $workspace=$workspaceService->findWorkspace($userId);
-
+        $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
 
         $logger->debug('Checking account page for '
                             .$this->getUser()->getEmail());
         return $this->render('account/index.html.twig', [
-            'workspace'=>$workspace
+            'workspace'=>$workspace,
+            'customWorkspaces'=>$customWorkspaces,
         ]);
     }
     /**

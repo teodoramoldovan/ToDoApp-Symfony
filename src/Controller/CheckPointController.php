@@ -32,6 +32,7 @@ class CheckPointController extends BaseController
 
         $workspace=$workspaceService->findWorkspace($userId);
         $toDoItem=$toDoService->findToDoBySlug($slug);
+        $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
         //dd($workspace);
         $form = $this->createForm(CheckPointFormType::class,null, [
             'workspace'=>$workspace,
@@ -51,6 +52,7 @@ class CheckPointController extends BaseController
         return $this->render('checkpoint/add.html.twig', [
             'checkPointForm' => $form->createView(),
             'workspace'=>$workspace,
+            'customWorkspaces'=>$customWorkspaces,
 
         ]);
     }
