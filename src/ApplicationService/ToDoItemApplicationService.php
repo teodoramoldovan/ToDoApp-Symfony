@@ -18,10 +18,10 @@ class ToDoItemApplicationService
         $this->toDoItemRepository = $toDoItemRepository;
     }
 
-    public function findToDosByProject(string $slug):array
+    public function findToDosByProject($q,string $slug):array
     {
         return $this->toDoItemRepository
-            ->findToDoItemsByProject($slug);
+            ->findToDoItemsByProject($q,$slug);
 
 
     }
@@ -42,25 +42,25 @@ class ToDoItemApplicationService
     public function addToDoItem($toDoItem){
         $this->toDoItemRepository->insertToDo($toDoItem);
     }
-    public function findTodayToDos(string $slug){
+    public function findTodayToDos($q,string $slug){
         return $this->toDoItemRepository
-            ->findTodayToDoItems($slug);
+            ->findTodayToDoItems($q,$slug);
     }
-    public function findUpcomingToDos(string $slug){
+    public function findUpcomingToDos($q,string $slug){
         return $this->toDoItemRepository
-            ->findUpcomingToDoItems($slug);
+            ->findUpcomingToDoItems($q,$slug);
     }
-    public function findCompletedToDos(string $slug){
+    public function findCompletedToDos($q,string $slug){
         return $this->toDoItemRepository
-            ->findCompletedToDoItems($slug);
+            ->findCompletedToDoItems($q,$slug);
     }
-    public function findAnytimeToDos(string $slug){
+    public function findAnytimeToDos($q,string $slug){
         return $this->toDoItemRepository
-            ->findAnytimeToDoItems($slug);
+            ->findAnytimeToDoItems($q,$slug);
     }
-    public function findSomedayToDos(string $slug){
+    public function findSomedayToDos($q,string $slug){
         return $this->toDoItemRepository
-            ->findSomedayToDoItems($slug);
+            ->findSomedayToDoItems($q,$slug);
     }
     public function findToDoBySlug(string $slug){
         return $this->toDoItemRepository

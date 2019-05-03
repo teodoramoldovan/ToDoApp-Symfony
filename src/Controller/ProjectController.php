@@ -7,15 +7,10 @@ namespace App\Controller;
 use App\ApplicationService\ProjectApplicationService;
 use App\ApplicationService\ToDoItemApplicationService;
 use App\ApplicationService\WorkspaceApplicationService;
-use App\Domain\Model\ToDoItemDTO;
 use App\Entity\ToDoItem;
-use App\Repository\ProjectRepository;
-use App\Repository\ToDoItemRepository;
-use App\Repository\WorkspaceRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProjectController extends AbstractController
@@ -27,15 +22,17 @@ class ProjectController extends AbstractController
     public function projectShow(ToDoItemApplicationService $toDoItemService,
                                 ProjectApplicationService $projectService,
                                 WorkspaceApplicationService $workspaceService,
-
+                                Request $request,
                                 $slug){
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $userId=$user->getId();
 
+        $q = $request->query->get('q');
+
         $workspace=$workspaceService->findWorkspace($userId);
-        $toDoItems=$toDoItemService->findToDosByProject($slug);
+        $toDoItems=$toDoItemService->findToDosByProject($q,$slug);
         $project=$projectService->findProjectBySlug($slug);
         $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
 

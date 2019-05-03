@@ -14,24 +14,6 @@
                     My to-dos
                 </h1>
 
-                <form >
-                    <div class="input-group mb-3" style="background-color: #111111">
-                        <input type="text"
-                               name="q"
-                               class="form-control"
-                               value="{{ app.request.query.get('q') }}"
-                               placeholder="Search..."
-
-
-                        >
-                        <div class="input-group-append">
-                            <button type="submit"
-                                    class="btn btn-outline-secondary">
-                                <span class="fa fa-search"></span>
-                            </button>
-                        </div>
-                    </div>
-                </form>
 
                 {% for toDoItem in toDoItems %}
                     <div class="to-do-container my-1" >

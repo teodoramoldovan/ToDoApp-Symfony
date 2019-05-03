@@ -25,9 +25,19 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
         $this->em=$em;
     }
 
-    public function findToDosByProject($project)
+    public function findToDosByProject(?string $term,$project)
     {
-        return $this->createQueryBuilder('t')
+        $qb=$this->createQueryBuilder('t');
+
+        if ($term) {
+            $qb
+                ->leftJoin('t.tags','tags')
+                ->addSelect('tags')
+                ->andWhere('t.name LIKE :term OR tags.name LIKE :term')
+                ->setParameter('term', '%' . $term . '%')
+            ;
+        }
+        return $qb
             ->leftJoin('t.project', 'project')
             ->andWhere('project.slug = :projectSlug')
             ->setParameter('projectSlug', $project)
@@ -44,9 +54,9 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
     }
 
 
-    public function findToDoItemsByProject(string $slug): array
+    public function findToDoItemsByProject($q,string $slug): array
     {
-        $toDoItems=$this->findToDosByProject($slug);
+        $toDoItems=$this->findToDosByProject($q,$slug);
         $toDoItemDtos=array();
         foreach ($toDoItems as $toDoItem){
             $toDoDto=new ToDoItemDTO($toDoItem->getName(),$toDoItem->getCalendarDate(),
@@ -61,12 +71,23 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
     }
 
 
-    public function findTodayToDos($workspace)
+    public function findTodayToDos(?string $term,$workspace)
     {
         $datetime = new \DateTime();
         $date= $datetime->format('Y-m-d');
 
-        return $this->createQueryBuilder('t')
+        $qb=$this->createQueryBuilder('t');
+
+        if ($term) {
+            $qb
+                ->leftJoin('t.tags','tags')
+                ->addSelect('tags')
+                ->andWhere('t.name LIKE :term OR tags.name LIKE :term')
+                ->setParameter('term', '%' . $term . '%')
+            ;
+        }
+
+        return $qb
             ->leftJoin('t.project', 'project')
             ->leftJoin('project.workspace','workspace')
             ->andWhere('workspace.slug = :workspaceSlug')
@@ -78,28 +99,51 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
             ;
     }
 
-    public function findUpcomingToDos($workspace)
+    public function findUpcomingToDos(?string $term,$workspace)
     {
         $datetime = new \DateTime();
         $date= $datetime->format('Y-m-d');
 
-        return $this->createQueryBuilder('t')
-            ->leftJoin('t.project', 'project')
-            ->leftJoin('project.workspace','workspace')
-            ->andWhere('workspace.slug = :workspaceSlug')
-            ->setParameter('workspaceSlug', $workspace)
-            ->andWhere('t.calendarDate>:date_now')
-            ->setParameter('date_now', $date)
-            ->orderBy('t.calendarDate', 'ASC')
-            ->getQuery()
-            ->getResult()
+        $qb=$this->createQueryBuilder('t');
+
+        if ($term) {
+            $qb
+                ->leftJoin('t.tags','tags')
+                ->addSelect('tags')
+                ->andWhere('t.name LIKE :term OR tags.name LIKE :term')
+                ->setParameter('term', '%' . $term . '%')
             ;
+        }
+
+        return $qb
+                ->leftJoin('t.project', 'project')
+                ->leftJoin('project.workspace','workspace')
+                ->andWhere('workspace.slug = :workspaceSlug')
+                ->setParameter('workspaceSlug', $workspace)
+                ->andWhere('t.calendarDate>:date_now')
+                ->setParameter('date_now', $date)
+                ->orderBy('t.calendarDate', 'ASC')
+                ->getQuery()
+                ->getResult()
+                ;
+
+
     }
 
-    public function findCompletedToDos($workspace)
+    public function findCompletedToDos(?string $term,$workspace)
     {
+        $qb=$this->createQueryBuilder('t');
 
-        return $this->createQueryBuilder('t')
+        if ($term) {
+            $qb
+                ->leftJoin('t.tags','tags')
+                ->addSelect('tags')
+                ->andWhere('t.name LIKE :term OR tags.name LIKE :term')
+                ->setParameter('term', '%' . $term . '%')
+            ;
+        }
+
+        return $qb
             ->leftJoin('t.project', 'project')
             ->leftJoin('project.workspace','workspace')
             ->andWhere('workspace.slug = :workspaceSlug')
@@ -112,10 +156,21 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
             ;
     }
 
-    public function findAnytimeToDos($workspace)
+    public function findAnytimeToDos(?string $term,$workspace)
     {
 
-        return $this->createQueryBuilder('t')
+        $qb=$this->createQueryBuilder('t');
+
+        if ($term) {
+            $qb
+                ->leftJoin('t.tags','tags')
+                ->addSelect('tags')
+                ->andWhere('t.name LIKE :term OR tags.name LIKE :term')
+                ->setParameter('term', '%' . $term . '%')
+            ;
+        }
+
+        return $qb
             ->leftJoin('t.project', 'project')
             ->leftJoin('project.workspace','workspace')
             ->andWhere('workspace.slug = :workspaceSlug')
@@ -126,10 +181,20 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
             ->getResult()
             ;
     }
-    public function findSomedayToDos($workspace)
+    public function findSomedayToDos(?string $term,$workspace)
     {
+        $qb=$this->createQueryBuilder('t');
 
-        return $this->createQueryBuilder('t')
+        if ($term) {
+            $qb
+                ->leftJoin('t.tags','tags')
+                ->addSelect('tags')
+                ->andWhere('t.name LIKE :term OR tags.name LIKE :term')
+                ->setParameter('term', '%' . $term . '%')
+            ;
+        }
+
+        return $qb
             ->leftJoin('t.project', 'project')
             ->leftJoin('project.workspace','workspace')
             ->andWhere('workspace.slug = :workspaceSlug')
@@ -196,9 +261,9 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
         $this->em->flush();
     }
 
-    public function findTodayToDoItems(string $slug): array
+    public function findTodayToDoItems($q,string $slug): array
     {
-        $toDoItems=$this->findTodayToDos($slug);
+        $toDoItems=$this->findTodayToDos($q,$slug);
         $toDoItemDtos=array();
         foreach ($toDoItems as $toDoItem){
             $toDoDto=new ToDoItemDTO($toDoItem->getName(),$toDoItem->getCalendarDate(),
@@ -211,9 +276,9 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
 
         return $toDoItemDtos;
     }
-    public function findUpcomingToDoItems(string $slug): array
+    public function findUpcomingToDoItems($q,string $slug): array
     {
-        $toDoItems=$this->findUpcomingToDos($slug);
+        $toDoItems=$this->findUpcomingToDos($q,$slug);
         $toDoItemDtos=array();
         foreach ($toDoItems as $toDoItem){
             $toDoDto=new ToDoItemDTO($toDoItem->getName(),$toDoItem->getCalendarDate(),
@@ -226,9 +291,9 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
 
         return $toDoItemDtos;
     }
-    public function findCompletedToDoItems(string $slug): array
+    public function findCompletedToDoItems($q,string $slug): array
     {
-        $toDoItems=$this->findCompletedToDos($slug);
+        $toDoItems=$this->findCompletedToDos($q,$slug);
         $toDoItemDtos=array();
         foreach ($toDoItems as $toDoItem){
             $toDoDto=new ToDoItemDTO($toDoItem->getName(),$toDoItem->getCalendarDate(),
@@ -241,9 +306,9 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
 
         return $toDoItemDtos;
     }
-    public function findAnytimeToDoItems(string $slug): array
+    public function findAnytimeToDoItems($q,string $slug): array
     {
-        $toDoItems=$this->findAnytimeToDos($slug);
+        $toDoItems=$this->findAnytimeToDos($q,$slug);
         $toDoItemDtos=array();
         foreach ($toDoItems as $toDoItem){
             $toDoDto=new ToDoItemDTO($toDoItem->getName(),$toDoItem->getCalendarDate(),
@@ -256,9 +321,9 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
 
         return $toDoItemDtos;
     }
-    public function findSomedayToDoItems(string $slug): array
+    public function findSomedayToDoItems($q,string $slug): array
     {
-        $toDoItems=$this->findSomedayToDos($slug);
+        $toDoItems=$this->findSomedayToDos($q,$slug);
         $toDoItemDtos=array();
         foreach ($toDoItems as $toDoItem){
             $toDoDto=new ToDoItemDTO($toDoItem->getName(),$toDoItem->getCalendarDate(),

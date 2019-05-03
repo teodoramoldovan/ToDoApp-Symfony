@@ -48,15 +48,21 @@ class WorkspaceController extends AbstractController
      * @Route("/workspace/{slug}/today", name="today_show")
      */
     public function showToday(WorkspaceApplicationService $workspaceService,
-                              ToDoItemApplicationService $toDoService)
+                              ToDoItemApplicationService $toDoService,
+                                Request $request)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $userId=$user->getId();
 
+        $q = $request->query->get('q');
+
         $workspace=$workspaceService->findWorkspace($userId);
-        $toDoItems=$toDoService->findTodayToDos($workspace->slug);
+        $toDoItems=$toDoService->findTodayToDos($q,$workspace->slug);
         $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
+
+
+
 
 
 
@@ -74,15 +80,19 @@ class WorkspaceController extends AbstractController
      * @Route("/workspace/{slug}/upcoming", name="upcoming_show")
      */
     public function showUpcoming(WorkspaceApplicationService $workspaceService,
-                                 ToDoItemApplicationService $toDoService)
+                                 ToDoItemApplicationService $toDoService,
+                                 Request $request)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $userId=$user->getId();
 
+        $q = $request->query->get('q');
+
         $workspace=$workspaceService->findWorkspace($userId);
-        $toDoItems=$toDoService->findUpcomingToDos($workspace->slug);
+        $toDoItems=$toDoService->findUpcomingToDos($q,$workspace->slug);
         $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
+
 
 
 
@@ -100,14 +110,17 @@ class WorkspaceController extends AbstractController
      * @Route("/workspace/{slug}/logbook", name="logbook_show")
      */
     public function showLogbook(WorkspaceApplicationService $workspaceService,
-                                ToDoItemApplicationService $toDoService)
+                                ToDoItemApplicationService $toDoService,
+                                Request $request)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $userId=$user->getId();
 
+        $q = $request->query->get('q');
+
         $workspace=$workspaceService->findWorkspace($userId);
-        $toDoItems=$toDoService->findCompletedToDos($workspace->slug);
+        $toDoItems=$toDoService->findCompletedToDos($q,$workspace->slug);
         $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
 
 
@@ -126,14 +139,17 @@ class WorkspaceController extends AbstractController
      * @Route("/workspace/{slug}/anytime", name="anytime_show")
      */
     public function showAnytime(WorkspaceApplicationService $workspaceService,
-                                ToDoItemApplicationService $toDoService)
+                                ToDoItemApplicationService $toDoService,
+                                Request $request)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $userId=$user->getId();
 
+        $q = $request->query->get('q');
+
         $workspace=$workspaceService->findWorkspace($userId);
-        $toDoItems=$toDoService->findAnytimeToDos($workspace->slug);
+        $toDoItems=$toDoService->findAnytimeToDos($q,$workspace->slug);
         $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
 
         $title="Anytime";
@@ -153,14 +169,17 @@ class WorkspaceController extends AbstractController
      * @Route("/workspace/{slug}/someday", name="someday_show")
      */
     public function showSomeday(WorkspaceApplicationService $workspaceService,
-                                ToDoItemApplicationService $toDoService)
+                                ToDoItemApplicationService $toDoService,
+                                Request $request)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $userId=$user->getId();
 
+        $q = $request->query->get('q');
+
         $workspace=$workspaceService->findWorkspace($userId);
-        $toDoItems=$toDoService->findSomedayToDos($workspace->slug);
+        $toDoItems=$toDoService->findSomedayToDos($q,$workspace->slug);
         $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
 
         $title="Someday";

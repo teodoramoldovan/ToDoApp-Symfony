@@ -17,10 +17,48 @@
 <nav class="navbar navbar-expand-lg navbar-dark navbar-bg {{ app.session.flashbag.peek('success')|
                                                     length > 0 ? '' : 'mb-5' }}">
     <a style="margin-left: 75px;color:white;font-size: 45px;" class="navbar-brand space-brand" href="{{ path('app_homepage') }}">ToDoApp</a>
+
+     {% set currentPath = path(app.request.attributes.get('_route'),
+        app.request.attributes.get('_route_params')) %}
+    {% if (not ('inbox' in currentPath))
+          and (not ('login' in currentPath))
+          and (not ('register' in currentPath))
+            or ('today' in currentPath)
+            or ('upcoming' in currentPath)
+            or ('anytime' in currentPath)
+            or ('someday' in currentPath)
+            or ('logbook' in currentPath)
+
+
+    %}
+
+    <form >
+        <div class="input-group mr-sm-2 " style="background-color: #111111; margin-left: 150px">
+            <input type="text"
+                   name="q"
+                   class="form-control"
+                   size="35"
+                   value="{{ app.request.query.get('q') }}"
+                   placeholder="Search..."
+
+
+            >
+            <div class="input-group-append">
+                <button type="submit"
+                        class="btn btn-outline-secondary">
+                    <span class="fa fa-search"></span>
+                </button>
+            </div>
+        </div>
+    </form>
+    {% endif %}
+
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
 
 
