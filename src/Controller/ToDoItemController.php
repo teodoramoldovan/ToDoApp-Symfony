@@ -13,8 +13,14 @@ use App\Entity\Tag;
 use App\Entity\ToDoItem;
 use App\Form\ToDoItemFormType;
 use Faker\Provider\DateTime;
+use GeoIp2\Database\Reader;
+use GeoIp2\Exception\AddressNotFoundException;
+use MaxMind\Db\Reader\InvalidDatabaseException;
+use Pyrrah\Bundle\OpenWeatherMapBundle\Services\Client;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ToDoItemController extends BaseController

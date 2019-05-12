@@ -4,11 +4,18 @@
 
 
     <div class="container" >
+
+        <div class="weather-tip">
+            Tip: {{ weather.suggestion }}
+        </div>
         <div class="row" >
 
 
 
-            <div class="col-sm-12 col-md-15">
+            <div class="col-sm-12 col-md-8">{#era 15#}
+
+
+
 
                 <h1 class="title">
                     Today
@@ -102,10 +109,42 @@
                         {% endif %}
                     {%  endfor %}
                 {% endif %}
-
-
-
             </div>
+
+                <div class="col-sm-12 col-md-4 text-center">
+                    <div class="quote-space pb-2 pt-2 px-5">
+
+                        <h3 class="text-center pb-3">{{weather.locationName }} Weather Status</h3>
+
+                        <div class="weather-forecast">
+
+                            <div>{{ weather.condition }}: {{ weather.description }}</div>
+
+                        </div>
+                        <div class="weather-forecast">
+                            <img
+                                    src="http://openweathermap.org/img/w/{{ weather.icon }}.png"
+                                    class="weather-icon" />
+                            {{ weather.temperature|round }}°C
+                        </div>
+                        <div>
+
+                            <div>Wind: {{ weather.windSpeed }} m/s</div>
+                            <div>Clounds: {{ weather.cloudPercentage }} %</div>
+                            <div>Visibility: {{ weather.visibility }} m</div>
+
+                        </div>
+
+                    </div>
+
+
+
+
+                    </div>
+                </div>
+
+
+
 
 
         </div>

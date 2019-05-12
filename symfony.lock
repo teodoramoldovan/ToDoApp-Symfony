@@ -129,6 +129,15 @@
     "gedmo/doctrine-extensions": {
         "version": "v2.4.37"
     },
+    "geoip2/geoip2": {
+        "version": "v2.9.0"
+    },
+    "gpslab/compressor": {
+        "version": "v1.0.0"
+    },
+    "gpslab/geoip2": {
+        "version": "v1.1.6"
+    },
     "guzzlehttp/guzzle": {
         "version": "6.3.3"
     },
@@ -152,6 +161,12 @@
     },
     "knplabs/knp-time-bundle": {
         "version": "1.9.0"
+    },
+    "maxmind-db/reader": {
+        "version": "v1.4.1"
+    },
+    "maxmind/web-service-common": {
+        "version": "v0.5.0"
     },
     "michelf/php-markdown": {
         "version": "1.8.0"
@@ -236,6 +251,9 @@
     },
     "psr/simple-cache": {
         "version": "1.0.1"
+    },
+    "pyrrah/openweathermap-bundle": {
+        "version": "1.0.1-dev"
     },
     "ralouphie/getallheaders": {
         "version": "2.0.5"

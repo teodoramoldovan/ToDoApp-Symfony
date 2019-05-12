@@ -1,0 +1,4 @@
+pyrrah_open_weather_map:
+  api_key: '15d700f299b929d0ad1ba12fa4ff86fc'
+  api_url:
+  units: ... // optional

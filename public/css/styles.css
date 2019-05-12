@@ -76,13 +76,34 @@ html,body {height:100%}
 .advertisement-text {
     font-weight: bold;
 }
-
+*/
 .quote-space {
-    background: #fff;
+    background-color:rgba(0,0,0,0.7);
+    color: #80ffd4;
     margin-top: 30px;
     border-radius: 5px;
-    border-top: 5px solid hotpink;
-}*/
+    border-top: 5px solid turquoise;
+}
+.weather-forecast {
+    color: #80ffd4;
+    font-size: 1.2em;
+    font-weight: bold;
+
+}
+.weather-tip {
+    background-color:rgba(0,0,0,0.7);
+    margin-bottom: 10px;
+    text-align: center;
+    color: greenyellow;
+    font-size: 1.2em;
+    font-weight: bold;
+
+}
+.weather-icon {
+    vertical-align: middle;
+    margin-right: 20px;
+
+}
 
 .right{
     float:right;

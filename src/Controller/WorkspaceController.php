@@ -4,13 +4,14 @@
 namespace App\Controller;
 
 
+use App\ApplicationService\CurrentWeatherService;
+use App\ApplicationService\LocationApplicationService;
 use App\ApplicationService\ProjectApplicationService;
 use App\ApplicationService\ToDoItemApplicationService;
+use App\ApplicationService\WeatherApplicationService;
 use App\ApplicationService\WorkspaceApplicationService;
 use App\Form\WorkspaceFormType;
-use App\Repository\ProjectRepository;
-use App\Repository\ToDoItemRepository;
-use App\Repository\WorkspaceRepository;
+use Pyrrah\Bundle\OpenWeatherMapBundle\Services\Client;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,7 +50,11 @@ class WorkspaceController extends AbstractController
      */
     public function showToday(WorkspaceApplicationService $workspaceService,
                               ToDoItemApplicationService $toDoService,
-                                Request $request)
+                              Request $request,
+                              CurrentWeatherService $currentWeatherService,
+                              Client $pyrrahclient,
+                              LocationApplicationService $locationService,
+                              WeatherApplicationService $weatherService)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
@@ -61,15 +66,16 @@ class WorkspaceController extends AbstractController
         $toDoItems=$toDoService->findTodayToDos($q,$workspace->slug);
         $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
 
-
-
-
+        $projectDir=$this->getParameter('kernel.project_dir');
+        $weather=$currentWeatherService->
+            getCurrentWeatherAtClientLocation($pyrrahclient,$locationService,$weatherService, $projectDir);
 
 
         return $this->render('workspace/today.html.twig',[
             'workspace'=>$workspace,
             'toDoItems'=>$toDoItems,
             'customWorkspaces'=>$customWorkspaces,
+            'weather'=>$weather,
 
 
         ]);
