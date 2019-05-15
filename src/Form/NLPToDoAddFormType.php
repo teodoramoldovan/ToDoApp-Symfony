@@ -4,12 +4,11 @@
 namespace App\Form;
 
 
-use App\ApplicationService\ProjectApplicationService;
 use App\Domain\Model\WorkspaceDTO;
 use App\Entity\Project;
 use App\Entity\Tag;
 use App\Entity\ToDoItem;
-use App\Entity\Workspace;
+use App\Form\Model\ToDoItemFormModel;
 use App\Repository\ProjectRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -19,7 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ToDoItemFormType extends AbstractType
+class NLPToDoAddFormType extends AbstractType
 {
     /**
      * @var WorkspaceDTO $workspace
@@ -34,21 +33,8 @@ class ToDoItemFormType extends AbstractType
 
 
         $builder
-            ->add('name',TextType::class, [
-
-            ])
-            ->add('description',null,[
-                'rows'=>5,
-                'required'=>false,
-            ])
-            ->add('tags',EntityType::class,[
-                'class'=>Tag::class,
-                'choice_label'=>'name',
-                'label' => 'Tags',
-                'expanded'=>true,
-                'multiple'=>true,
-                'required'=>false,
-
+            ->add('unprocessedToDO',TextType::class, [
+                'label'=>'To-do',
             ])
             ->add('project',EntityType::class,[
                 'class'=>Project::class,
@@ -61,30 +47,14 @@ class ToDoItemFormType extends AbstractType
                 'placeholder'=>'Choose a project',
                 'required'=>true,
             ])
-            ->add('heading',ChoiceType::class,[
-                'choices'=>['This Evening'=>'this_evening'],
-                'label'=>'When exactly?',
-                'help'=>'If you check this, leave calendar date empty',
-                'expanded'=>true,
-                'placeholder'=>false,
-                'required'=>false,
-            ])
-            ->add('calendarDate',DateType::class,[
-                'widget' => 'single_text',
-                'required'=>false,
 
-            ])
-            ->add('deadline',DateType::class,[
-                'widget' => 'single_text',
-                'required'=>false,
-            ])
-            ;
+        ;
 
     }
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ToDoItem::class,
+            'data_class' => ToDoItemFormModel::class,
             'workspace'=>null,
         ]);
     }
