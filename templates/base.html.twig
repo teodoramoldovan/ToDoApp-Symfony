@@ -88,11 +88,11 @@
                             {slug: workspace.slug}) }}">Someday</a>
                         <a class="dropdown-item" href="{{ path('logbook_show',
                             {slug: workspace.slug}) }}">Logbook</a>
-                        {% if is_granted('ROLE_PRO') %}
+
                             {% for custom in customWorkspaces %}
                                 <a class="dropdown-item" href=" #">{{ custom.name }}</a>
                             {% endfor %}
-                        {% endif %}
+
                         <div class="dropdown-divider"></div>
 
                         <h6 class="dropdown-header">Add a new to-do</h6>
@@ -102,11 +102,11 @@
                             {slug: workspace.slug}) }}">I can handle it</a>
 
 
-                        {% if is_granted('ROLE_PRO') %}
+
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ path('workspace_new',
                                 {slug: workspace.slug}) }}">Add workspace </a>
-                        {% endif %}
+
 
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>

@@ -3,13 +3,9 @@
         label: 'To-do item name'
     }) }}
     {{ form_row(toDoItemForm.description) }}
-    {% if is_granted('ROLE_PRO') %}
-        {{ form_row(toDoItemForm.heading) }}
-    {% else %}
 
-            {{ form_row(toDoItemForm.heading.setRendered) }}
+    {{ form_row(toDoItemForm.heading) }}
 
-    {% endif%}
     {{ form_row(toDoItemForm.calendarDate)}}
     {{ form_row(toDoItemForm.deadline) }}
     {% if is_granted('ROLE_PRO') %}

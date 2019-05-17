@@ -141,10 +141,11 @@ class ToDoItemController extends BaseController
                 else $toDoItem->setName($parts[0]);
 
 
-                if($toDoItem->getHeading()!=null){
-                    $date=new \DateTime();
-                    $toDoItem->setCalendarDate($date);
-                }
+
+            }
+            if($toDoItem->getHeading()!=null){
+                $date=new \DateTime();
+                $toDoItem->setCalendarDate($date);
             }
             $toDoService->addToDoItem($toDoItem);
             $this->addFlash('success', 'ToDoItem Created!');
@@ -201,10 +202,6 @@ class ToDoItemController extends BaseController
                 else $toDoItem->setName($parts[0]);
 
 
-                if($toDoItem->getHeading()!=null){
-                    $date=new \DateTime();
-                    $toDoItem->setCalendarDate($date);
-                }
             }
 
             $toDoService->addToDoItem($toDoItem);

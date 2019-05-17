@@ -203,7 +203,6 @@ class WorkspaceController extends AbstractController
 
     /**
      * @Route("/workspace/{slug}/new", name="workspace_new")
-     * @IsGranted("ROLE_PRO")
      */
     public function add( Request $request,
                          WorkspaceApplicationService $workspaceService,
