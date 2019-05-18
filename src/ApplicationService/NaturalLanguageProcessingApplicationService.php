@@ -19,7 +19,7 @@ class NaturalLanguageProcessingApplicationService
         "Friday", "friday",
         "Saturday", "saturday",
         "Sunday", "sunday",
-        "in", "next"
+
 
 
     );
@@ -28,40 +28,40 @@ class NaturalLanguageProcessingApplicationService
 
         $toDoItem=new ToDoItem();
         $toDoToProcess=$unprocessed->unprocessedToDO;
-        $parts=explode(" ",$toDoToProcess);
-        foreach (array_slice($parts,0) as $part){
-            if(in_array($part,$this->dates)){
-                $key=array_search($part,$parts);
-                if($part=="in" && ($parts[$key+2]=="days" || $parts[$key+2]=="day")){
-                    $numberOfDays=$parts[$key+1];
-                    $toDoItem->setCalendarDate(new \DateTime('today + '.$numberOfDays.' days'));
-                    unset($parts[$key]);
-                    unset($parts[$key+1]);
-                    unset($parts[$key+2]);
-                }
-                else if($part=="in" && ($parts[$key+2]=="weeks"|| $parts[$key+2]=="week")){
-                    $numberOfWeeks=$parts[$key+1];
-                    $toDoItem->setCalendarDate(new \DateTime('today + '.($numberOfWeeks*7).' days'));
-                    unset($parts[$key]);
-                    unset($parts[$key+1]);
-                    unset($parts[$key+2]);
-                }
-                else if($part=="next" && $parts[$key+1]=="week"){
+        $pattern="/((in [0-9]+ days?)|(in [0-9]+ weeks?))|(next week)/";
+        $pattern2="/[0-9]+/";
+        if(preg_match($pattern,$toDoToProcess,$array)){
+            $match=$array[0];
+            $name=str_replace($array[0],"",$toDoToProcess);
 
-                    $toDoItem->setCalendarDate(new \DateTime('today + 7 days'));
-                    unset($parts[$key]);
-                    unset($parts[$key+1]);
+            if(strpos($match,"next week")!==false){
+                $toDoItem->setCalendarDate(new \DateTime('today + 7 days'));
+            }
+            else if(preg_match($pattern2,$match,$array2)){
+                $date=$array2[0];
 
+                if(strpos($match,"day")!==false){
+                    $toDoItem->setCalendarDate(new \DateTime('today + '.$date.' days'));
                 }
-                else {
+                else if(strpos($match,"week")!==false){
+                    $toDoItem->setCalendarDate(new \DateTime('today + '.($date*7).' days'));
+                }
+            }
+            $toDoItem->setName($name);
+
+        }
+        else {
+            $parts=explode(" ",$toDoToProcess);
+            foreach (array_slice($parts,0) as $part){
+                if(in_array($part,$this->dates)){
+                    $key=array_search($part,$parts);
+
                     $toDoItem->setCalendarDate(new \DateTime($part));
                     unset($parts[$key]);
                 }
-
             }
-
+            $toDoItem->setName(implode(" ",$parts));
         }
-        $toDoItem->setName(implode(" ",$parts));
         $toDoItem->setProject($unprocessed->project);
         return $toDoItem;
 
