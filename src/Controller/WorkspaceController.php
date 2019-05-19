@@ -4,15 +4,11 @@
 namespace App\Controller;
 
 
-use App\ApplicationService\CurrentWeatherService;
-use App\ApplicationService\LocationApplicationService;
 use App\ApplicationService\ProjectApplicationService;
 use App\ApplicationService\ToDoItemApplicationService;
-use App\ApplicationService\WeatherApplicationService;
 use App\ApplicationService\WorkspaceApplicationService;
 use App\Form\WorkspaceFormType;
-use Pyrrah\Bundle\OpenWeatherMapBundle\Services\Client;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Framework\AgentFramework;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,26 +45,17 @@ class WorkspaceController extends AbstractController
      * @Route("/workspace/{slug}/today", name="today_show")
      */
     public function showToday(WorkspaceApplicationService $workspaceService,
-                              ToDoItemApplicationService $toDoService,
-                              Request $request,
-                              CurrentWeatherService $currentWeatherService,
-                              Client $pyrrahclient,
-                              LocationApplicationService $locationService,
-                              WeatherApplicationService $weatherService)
+                              AgentFramework $framework)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $userId=$user->getId();
 
-        $q = $request->query->get('q');
-
         $workspace=$workspaceService->findWorkspace($userId);
-        $toDoItems=$toDoService->findTodayToDos($q,$workspace->slug);
         $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
 
-        $projectDir=$this->getParameter('kernel.project_dir');
-        $weather=$currentWeatherService->
-            getCurrentWeatherAtClientLocation($pyrrahclient,$locationService,$weatherService, $projectDir);
+        $weather=$framework->receiveIntent("weather","display");
+        $toDoItems=$framework->receiveIntent("toDo","search");
 
 
         return $this->render('workspace/today.html.twig',[
@@ -86,17 +73,14 @@ class WorkspaceController extends AbstractController
      * @Route("/workspace/{slug}/upcoming", name="upcoming_show")
      */
     public function showUpcoming(WorkspaceApplicationService $workspaceService,
-                                 ToDoItemApplicationService $toDoService,
-                                 Request $request)
+                                 AgentFramework $framework)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $userId=$user->getId();
 
-        $q = $request->query->get('q');
-
         $workspace=$workspaceService->findWorkspace($userId);
-        $toDoItems=$toDoService->findUpcomingToDos($q,$workspace->slug);
+        $toDoItems=$framework->receiveIntent("toDo","search");
         $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
 
 
@@ -116,17 +100,15 @@ class WorkspaceController extends AbstractController
      * @Route("/workspace/{slug}/logbook", name="logbook_show")
      */
     public function showLogbook(WorkspaceApplicationService $workspaceService,
-                                ToDoItemApplicationService $toDoService,
-                                Request $request)
+                                AgentFramework $framework)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $userId=$user->getId();
 
-        $q = $request->query->get('q');
 
         $workspace=$workspaceService->findWorkspace($userId);
-        $toDoItems=$toDoService->findCompletedToDos($q,$workspace->slug);
+        $toDoItems=$framework->receiveIntent("toDo","search");
         $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
 
 
@@ -145,17 +127,15 @@ class WorkspaceController extends AbstractController
      * @Route("/workspace/{slug}/anytime", name="anytime_show")
      */
     public function showAnytime(WorkspaceApplicationService $workspaceService,
-                                ToDoItemApplicationService $toDoService,
-                                Request $request)
+                                AgentFramework $framework)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $userId=$user->getId();
 
-        $q = $request->query->get('q');
 
         $workspace=$workspaceService->findWorkspace($userId);
-        $toDoItems=$toDoService->findAnytimeToDos($q,$workspace->slug);
+        $toDoItems=$framework->receiveIntent("toDo","search");
         $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
 
         $title="Anytime";
@@ -175,17 +155,16 @@ class WorkspaceController extends AbstractController
      * @Route("/workspace/{slug}/someday", name="someday_show")
      */
     public function showSomeday(WorkspaceApplicationService $workspaceService,
-                                ToDoItemApplicationService $toDoService,
-                                Request $request)
+                                AgentFramework $framework)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $userId=$user->getId();
 
-        $q = $request->query->get('q');
+
 
         $workspace=$workspaceService->findWorkspace($userId);
-        $toDoItems=$toDoService->findSomedayToDos($q,$workspace->slug);
+        $toDoItems=$framework->receiveIntent("toDo","search");
         $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
 
         $title="Someday";
