@@ -348,4 +348,41 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
 
         return $this->findOneBy(array('slug'=>$slug));
     }
+
+    public function findAllToDos($workspace){
+        $datetime = new \DateTime();
+        $date= $datetime->format('Y-m-d');
+
+        $qb=$this->createQueryBuilder('t');
+
+        return $qb
+            ->leftJoin('t.project', 'project')
+            ->leftJoin('project.workspace','workspace')
+            ->andWhere('workspace.slug = :workspaceSlug')
+            ->setParameter('workspaceSlug', $workspace)
+            ->andWhere('t.calendarDate>:date_now OR t.calendarDate<=:date_now')
+            //->andWhere('t.calendarDate<=:date_now')
+            ->setParameter('date_now', $date)
+            ->orderBy('t.calendarDate', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findAllToDoItems(string $slug): array
+    {
+        $toDoItems=$this->findAllToDos($slug);
+        $toDoItemDtos=array();
+        foreach ($toDoItems as $toDoItem){
+            $toDoDto=new ToDoItemDTO($toDoItem->getName(),$toDoItem->getCalendarDate(),
+                $toDoItem->getTags(),$toDoItem->getProject(), $toDoItem->getDone(),
+                $toDoItem->getSlug(), $toDoItem->getWish(),$toDoItem->getDescription(), $toDoItem->getDeadline(),
+                $toDoItem->getCheckPoints(),$toDoItem->getHeading());
+            array_push($toDoItemDtos,$toDoDto);
+
+        }
+
+        return $toDoItemDtos;
+
+    }
 }

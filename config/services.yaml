@@ -34,9 +34,12 @@ services:
 
 
     pyrrah.openweathermap.client:
-                class: Pyrrah\Bundle\OpenWeatherMapBundle\Services\Client
-                arguments:
-                   $apiKey: '15d700f299b929d0ad1ba12fa4ff86fc'
+        class: Pyrrah\Bundle\OpenWeatherMapBundle\Services\Client
+        arguments:
+            $apiKey: '15d700f299b929d0ad1ba12fa4ff86fc'
 
     Pyrrah\Bundle\OpenWeatherMapBundle\Services\Client: '@pyrrah.openweathermap.client'
 
+    App\EventListener\CalendarListener:
+        tags:
+            - { name: 'kernel.event_listener', event: 'calendar.set_data', method: load }

@@ -70,6 +70,10 @@ class ToDoItemApplicationService
     {
         return explode("#",$title);
     }
+    public function findAllToDos(string $slug){
+        return $this->toDoItemRepository
+            ->findAllToDoItems($slug);
+    }
 
 
 }

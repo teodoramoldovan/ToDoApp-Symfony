@@ -12,11 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @IsGranted("ROLE_USER")
  */
-class AccountController extends BaseController
+class CalendarController extends BaseController
 {
 
     /**
-     * @Route("/account", name="app_account")
+     * @Route("/calendar", name="app_account")
      */
     public function index(LoggerInterface $logger,
                           WorkspaceApplicationService $workspaceService)
@@ -30,15 +30,15 @@ class AccountController extends BaseController
         $workspace=$workspaceService->findWorkspace($userId);
         $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
 
-        $logger->debug('Checking account page for '
+        $logger->debug('Checking calendar page for '
                             .$this->getUser()->getEmail());
-        return $this->render('account/index.html.twig', [
+        return $this->render('calendar/index.html.twig', [
             'workspace'=>$workspace,
             'customWorkspaces'=>$customWorkspaces,
         ]);
     }
     /**
-     * @Route("/api/account", name="api_account")
+     * @Route("/api/calendar", name="api_account")
      */
     public function accountApi()
     {

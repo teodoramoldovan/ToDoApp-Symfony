@@ -10,6 +10,15 @@
               crossorigin="anonymous">
         <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
         <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap@4.1.0/main.min.css">
+
+        {#<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/cyborg/bootstrap.min.css">#}
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+              integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
+              crossorigin="anonymous">
     {% endblock %}
 </head>
 <body>
@@ -72,7 +81,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" >
 
-                        <a class="dropdown-item" href="{{ path('app_account') }}">Profile</a>
+                        <a class="dropdown-item" href="{{ path('app_account') }}">Calendar</a>
                         <div class="dropdown-divider"></div>
 
                         <h6 class="dropdown-header">Workspaces</h6>
@@ -129,6 +138,8 @@
         {{ message }}
     </div>
 {% endfor %}
+
+
 {% block body %}{% endblock %}
 
 {% block javascripts %}
@@ -138,11 +149,62 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
             integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
             crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+    {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
             integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>#}
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
     <script>
         $('.dropdown-toggle').dropdown();
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.1.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap@4.1.0/main.min.js"></script>
+
+
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            var calendarEl = document.getElementById('calendar-holder');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                defaultView: 'dayGridMonth',
+                editable: false,
+                eventSources: [
+                    {
+                        url: "{{ path('fc_load_events') }}",
+                        type: "POST",
+                        data: {
+                            filters: {},
+                        },
+                        error: () => {
+                            // alert("There was an error while fetching FullCalendar!");
+                        },
+                    },
+                ],
+                header: {
+                    left: 'prev,next today',
+                    center: '',
+                    right: 'title',
+                },
+                plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'bootstrap' ],
+                timeZone: 'UTC',
+                aspectRatio: 2.2,
+
+                themeSystem: 'bootstrap'
+
+            });
+
+
+
+            calendar.render();
+
+
+
+        });
     </script>
 {% endblock %}
 </body>

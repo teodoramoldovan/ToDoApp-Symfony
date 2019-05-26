@@ -19,5 +19,7 @@ interface ToDoItemRepositoryInterface
     public function findAnytimeToDoItems($q,string $slug):array;
     public function findSomedayToDoItems($q,string $slug):array;
     public function findToDoBySlug(string $slug):ToDoItem;
+    public function findAllToDoItems(string $slug):array;
+
 
 }

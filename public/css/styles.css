@@ -156,6 +156,11 @@ html,body {height:100%}
     border-bottom-left-radius: 5px;
     background-color:rgba(0,0,0,0.7) ;
 }
+.calendar-container {
+
+
+    background-color:rgba(0,0,0,0.1) ;
+}
 
 
 .main-article-link, .to-do-item ,.article-container a {

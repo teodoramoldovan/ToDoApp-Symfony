@@ -22,4 +22,5 @@ return [
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
     GpsLab\Bundle\GeoIP2Bundle\GpsLabGeoIP2Bundle::class => ['all' => true],
     Pyrrah\Bundle\OpenWeatherMapBundle\PyrrahOpenWeatherMapBundle::class => ['all' => true],
-    ];
+    CalendarBundle\CalendarBundle::class => ['all' => true],
+];
