@@ -37,6 +37,10 @@ class ToDoItemController extends BaseController
         $workspace=$workspaceService->findWorkspace($userId);
         $customWorkspaces=$workspaceService->findCustomWorkspaces($userId);
         $toDoItems=$toDoService->findAllSearch($q,$workspace->slug);
+
+
+
+
         return $this->render('home/homepage.html.twig',[
             'workspace'=>$workspace,
             'toDoItems'=>$toDoItems,

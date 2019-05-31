@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
@@ -36,11 +37,11 @@ class Tag
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\ToDoItem", mappedBy="tags")
      */
-    private $toDoItems;
+    private $toDos;
 
     public function __construct()
     {
-        $this->toDoItems = new ArrayCollection();
+        $this->toDos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,25 +78,25 @@ class Tag
     /**
      * @return Collection|ToDoItem[]
      */
-    public function getToDoItems(): Collection
+    public function getToDos(): Collection
     {
-        return $this->toDoItems;
+        return $this->toDos;
     }
 
-    public function addToDoItem(ToDoItem $toDoItem): self
+    public function addToDo(ToDoItem $toDoItem): self
     {
-        if (!$this->toDoItems->contains($toDoItem)) {
-            $this->toDoItems[] = $toDoItem;
+        if (!$this->toDos->contains($toDoItem)) {
+            $this->toDos[] = $toDoItem;
             $toDoItem->addTag($this);
         }
 
         return $this;
     }
 
-    public function removeToDoItem(ToDoItem $toDoItem): self
+    public function removeToDo(ToDoItem $toDoItem): self
     {
-        if ($this->toDoItems->contains($toDoItem)) {
-            $this->toDoItems->removeElement($toDoItem);
+        if ($this->toDos->contains($toDoItem)) {
+            $this->toDos->removeElement($toDoItem);
             $toDoItem->removeTag($this);
         }
 

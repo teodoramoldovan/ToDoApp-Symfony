@@ -116,6 +116,12 @@
                             <a class="dropdown-item" href="{{ path('workspace_new',
                                 {slug: workspace.slug}) }}">Add workspace </a>
 
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path('export',
+                            {slug: workspace.slug}) }}">Export my data </a>
+                        <a class="dropdown-item" href="{{ path('import',
+                            {slug: workspace.slug}) }}">Import my data </a>
+
 
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>

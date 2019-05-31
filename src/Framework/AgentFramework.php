@@ -6,8 +6,6 @@ namespace App\Framework;
 
 use App\Agents\ToDoSearchAgent;
 use App\Agents\WeatherAgent;
-use Pyrrah\Bundle\OpenWeatherMapBundle\Services\Client;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class AgentFramework
 {
@@ -41,21 +39,32 @@ class AgentFramework
     }
 
     public function findAgent($noun,$verb){
-        foreach ($this->agents as $agent){
-            if($agent['noun']==$noun && $agent['verb']==$verb){
-                return array_search($agent,$this->agents);
+        $filteredAgents=$this->findAgentsByVerb($verb);
+        $agent=$this->findAgentByNoun($filteredAgents,$noun);
+        return array_search($agent,$this->agents);
 
-            }
-        }
-        return "not found";
     }
 
     public function receiveIntent($noun,$verb){
         $foundAgent=$this->findAgent($noun,$verb);
-        if($foundAgent!="not found"){
-            return $this->actualAgents[$foundAgent]->getData();
+        return $this->actualAgents[$foundAgent]->getData();
+    }
+
+    public function findAgentsByVerb($verb){
+        $agentsFound=array();
+        foreach($this->agents as $agent){
+            if($agent['verb']==$verb){
+                array_push($agentsFound,$agent);
+            }
         }
-        return "muita";
+        return $agentsFound;
+    }
+    public function findAgentByNoun($agents,$noun){
+        foreach($agents as $agent){
+            if($agent['noun']==$noun){
+                return $agent;
+            }
+        }
     }
 
 }

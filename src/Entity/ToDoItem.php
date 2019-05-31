@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -34,14 +35,14 @@ class ToDoItem
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="toDoItems")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="toDos")
+     * @MaxDepth(1)
      */
     private $tags;
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="toDoItems")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="toDoItems", cascade={"persist"})
      */
     private $project;
 
@@ -73,6 +74,7 @@ class ToDoItem
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\CheckPoint", mappedBy="toDoItem", orphanRemoval=true)
+
      */
     private $checkPoints;
 

@@ -28,8 +28,7 @@ class CheckPoint
     private $done=false;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ToDoItem", inversedBy="checkPoints")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\ToDoItem", inversedBy="checkPoints",cascade={"persist"})
      */
     private $toDoItem;
 

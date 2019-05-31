@@ -236,7 +236,7 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
     public function findAllSearch($q, string $slug): array
     {
         $toDoItems=$this->findAllWithSearch($q,$slug);
-        $toDoItemDtos=array();
+        /*$toDoItemDtos=array();
         foreach ($toDoItems as $toDoItem){
             $toDoDto=new ToDoItemDTO($toDoItem->getName(),$toDoItem->getCalendarDate(),
                 $toDoItem->getTags(),$toDoItem->getProject(), $toDoItem->getDone(),
@@ -246,7 +246,8 @@ class ToDoItemRepository extends ServiceEntityRepository implements ToDoItemRepo
 
         }
 
-        return $toDoItemDtos;
+        return $toDoItemDtos;*/
+        return $toDoItems;
     }
 
     public function deleteToDo(ToDoItem $toDoItem): void

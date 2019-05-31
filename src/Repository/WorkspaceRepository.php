@@ -50,6 +50,10 @@ class WorkspaceRepository extends ServiceEntityRepository implements WorkspaceRe
         $workspaceDto->slug=$workspace->getSlug();
         return $workspaceDto;
     }
+    public function findSimpleWorkspace(int $userId): Workspace
+    {
+        return $this->findInboxByUser($userId);
+    }
 
     public function findWorkspacesByUser($userId)
     {

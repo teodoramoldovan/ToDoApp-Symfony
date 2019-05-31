@@ -16,6 +16,9 @@ class TagApplicationService
     public function addTag($tag){
         $this->tagRepository->insertTag($tag);
     }
+    public function findAll(){
+       return $this->tagRepository->findAll();
+    }
 
 
 }

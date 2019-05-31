@@ -24,6 +24,10 @@ class WorkspaceApplicationService
         return $workspace;
 
     }
+    public function findSimpleWorkspace(int $userId):Workspace{
+        return $this->workspaceRepository
+            ->findSimpleWorkspace($userId);
+    }
     public function addWorkspace(Workspace $workspace):void
     {
         $this->workspaceRepository->insertWorkspace($workspace);
